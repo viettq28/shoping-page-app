@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "import": "node importData.js"
+    "import": "node importData.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "name": "server",
   "version": "1.0.0",
