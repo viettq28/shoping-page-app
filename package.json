@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "dev": "nodemon server.js",
+    "client": "npm run dev --prefix client ",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "ins": "npm install && cd client && npm install",
     "start": "node server.js",
     "import": "node importData.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
@@ -25,6 +28,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.4"
   },
   "author": "",

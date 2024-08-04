@@ -19,16 +19,22 @@ app.enable('trust proxy');
 // 1. Global middlewares
 //Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // Implement cors
-app.use(cors({
-  origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '*',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '*',
+    credentials: true,
+  })
+);
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'client/dist')));
+
+if (process.env.NODE_ENV !== 'development') {
+  app.use(express.static(path.join(__dirname, 'client/dist')));
+}
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -36,7 +42,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(compression());
-
 
 app.use((req, res, next) => {
   // console.log(req.body);
@@ -49,18 +54,20 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/sessions', sessionRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/stats', statRouter);
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
+
+if (process.env.NODE_ENV !== 'development') {
+  app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+  });
+}
 
 // 3.Global error handler
 app.use(globalErrorHandler);
 
 process.on('SIGTERM', () => {
   server.close(() => {
-    console.log("SERVER TERMINATED"); 
+    console.log('SERVER TERMINATED');
   });
-})
+});
 
-
-module.exports = app
+module.exports = app;
