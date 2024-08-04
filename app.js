@@ -1,0 +1,66 @@
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const morgan = require('morgan');
+const compression = require('compression');
+const cookieParser = require('cookie-parser');
+const globalErrorHandler = require('./controllers/errorController');
+
+const userRouter = require('./routes/userRoutes');
+const productRouter = require('./routes/productRoutes');
+const sessionRouter = require('./routes/sessionRoutes');
+const orderRouter = require('./routes/orderRoutes');
+const statRouter = require('./routes/statRoutes');
+
+const app = express();
+
+app.enable('trust proxy');
+
+// 1. Global middlewares
+//Body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+app.use(cookieParser());
+// Implement cors
+app.use(cors({
+  origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.CORS_ORIGIN,
+  credentials: true,
+}));
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
+// Development logging
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+app.use(compression());
+
+
+app.use((req, res, next) => {
+  // console.log(req.body);
+  next();
+});
+
+// 2.Routes
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/sessions', sessionRouter);
+app.use('/api/v1/orders', orderRouter);
+app.use('/api/v1/stats', statRouter);
+
+// 3.Global error handler
+app.use(globalErrorHandler);
+
+process.on('SIGTERM', () => {
+  server.close(() => {
+    console.log("SERVER TERMINATED"); 
+  });
+})
+
+
+module.exports = app

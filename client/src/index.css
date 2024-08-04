@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --cust-font: #E9C77B;
+    --cust-bg: #F4F5F9;
+}
+.active-text {
+    color: var(--cust-font) !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+
+select {
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+}
+option {
+  padding: 10px;
+}
+select, select:hover, select:active, select:focus {
+  border: none;
+  outline: none;
+}
+
