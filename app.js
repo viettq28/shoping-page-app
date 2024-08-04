@@ -30,9 +30,6 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'client/dist')));
 
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -52,6 +49,9 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/sessions', sessionRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/stats', statRouter);
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+});
 
 // 3.Global error handler
 app.use(globalErrorHandler);
