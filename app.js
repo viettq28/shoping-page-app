@@ -56,7 +56,7 @@ app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/stats', statRouter);
 
 if (process.env.NODE_ENV !== 'development') {
-  app.get('/', function (req, res) {
+  app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
   });
 }
