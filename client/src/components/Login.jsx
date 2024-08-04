@@ -17,7 +17,7 @@ const Login = ({ notLoginMsg }) => {
       const url = `${serverHost}/api/v1/users/login`;
       const result = await fetch(url, {
         method: 'POST',
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(input),
       });

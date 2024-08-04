@@ -9,11 +9,11 @@ export default function useHttp() {
     setError(null);
 
     if (opts) {
-      opts.credentials = 'include';
+      opts.credentials = import.meta.env.DEV ? 'include' : 'same-origin';
     } else {
       opts = {
         method: 'GET',
-        credentials: 'include'
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       }
     }
     try {

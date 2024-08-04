@@ -40,7 +40,7 @@ const MainNavigation = ({ currentUser }) => {
     sendRequest(
       `${serverHost}/api/v1/users/logout`,
       {
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       },
       applyData
     );

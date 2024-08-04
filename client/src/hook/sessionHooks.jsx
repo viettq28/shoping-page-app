@@ -11,7 +11,7 @@ export function useSessions() {
   } = useQuery({
     queryFn: async () => {
       const result = await fetch(`${serverHost}/api/v1/sessions`, {
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       });
       return await result.json();
     },
@@ -32,7 +32,7 @@ export function useSession(sessionId) {
   } = useQuery({
     queryFn: async () => {
       const result = await fetch(`${serverHost}/api/v1/sessions/${sessionId}`, {
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       });
       return await result.json();
     },

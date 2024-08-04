@@ -23,7 +23,7 @@ const io = init(server, {
     origin:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3000'
-        : process.env.CORS_ORIGIN,
+        : '*',
     credentials: true,
   },
 });

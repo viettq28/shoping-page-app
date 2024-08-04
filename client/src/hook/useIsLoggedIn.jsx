@@ -16,7 +16,7 @@ const useIsLoggedIn = () => {
       const result = await fetch(
         `${serverHost}/api/v1/users/isLoggedIn`,
         {
-          credentials: 'include',
+          credentials: import.meta.env.DEV ? 'include' : 'same-origin',
         }
       );
       return await result.json();

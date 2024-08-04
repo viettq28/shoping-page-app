@@ -13,7 +13,7 @@ export const useProducts = () => {
     queryFn: async () => {
       const url = `${serverHost}/api/v1/products`;
       const result = await fetch(url, {
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       });
       return await result.json();
     },
@@ -32,7 +32,7 @@ export const useMutateProducts = () => {
       let url = `${serverHost}/api/v1/products/${
         productId || ''
       }`;
-      options.credentials = 'include';
+      options.credentials = import.meta.env.DEV ? 'include' : 'same-origin';
       return await fetch(url, options);
     },
     onSuccess: () => {

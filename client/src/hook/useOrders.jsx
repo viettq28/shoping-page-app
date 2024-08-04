@@ -12,7 +12,7 @@ export const useOrders = () => {
   } = useQuery({
     queryFn: async () => {
       const result = await fetch(`${serverHost}/api/v1/orders`, {
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       });
       return await result.json();
     },
@@ -34,7 +34,7 @@ export const useCurrentUserOrders = () => {
   } = useQuery({
     queryFn: async () => {
       const result = await fetch(`${serverHost}/api/v1/orders/${currentUser._id}`, {
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
       });
       return await result.json();
     },
@@ -55,7 +55,7 @@ export const useMutateOrder = () => {
       
       return await fetch(url, {
         method: 'POST',
-        credentials: 'include',
+        credentials: import.meta.env.DEV ? 'include' : 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
